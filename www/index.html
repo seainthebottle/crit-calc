@@ -112,10 +112,17 @@
                 <div class="card">
 
                     <div class="input-group">
-                        <label for="anti-drug">Select Antibiotics</label>
-                        <select id="anti-drug" onchange="updateAntibioticDose()">
-                            <!-- Will be populated by JS -->
-                        </select>
+                        <label for="anti-drug-input">Select Antibiotics</label>
+                        <div class="dropdown-container">
+                            <div class="search-input-wrapper">
+                                <input type="text" id="anti-drug-input" placeholder="Type to search..."
+                                    autocomplete="off">
+                                <button id="clear-input-btn" class="clear-input-btn hidden"
+                                    aria-label="Clear">&times;</button>
+                            </div>
+                            <input type="hidden" id="anti-drug">
+                            <div id="anti-drug-list" class="dropdown-list"></div>
+                        </div>
                     </div>
 
                     <div class="input-group">

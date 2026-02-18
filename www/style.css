@@ -417,3 +417,166 @@ hr {
         display: none !important;
     }
 }
+
+/* AutoComplete Dropdown Styles */
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 0 0 8px 8px;
+    z-index: 1000;
+    max-height: 50vh;
+    /* Extended height for desktop */
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-top: -4px;
+}
+
+.dropdown-list.show {
+    display: block;
+}
+
+.dropdown-category {
+    padding: 8px 12px;
+    background: var(--input-bg);
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.dropdown-item {
+    padding: 12px;
+    cursor: pointer;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s, color 0.1s;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* Clear Button */
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.clear-input-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    z-index: 10;
+    transition: color 0.1s;
+}
+
+.clear-input-btn:hover {
+    color: var(--primary);
+}
+
+.clear-input-btn.hidden {
+    display: none;
+}
+
+/* Add padding to input so text doesn't overlap button */
+#anti-drug-input {
+    padding-right: 40px;
+}
+
+/* Mobile Full-Screen Dropdown */
+/* Mobile Full-Screen Dropdown */
+@media (max-width: 480px) {
+    .dropdown-container.mobile-expanded {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: var(--bg-color);
+        z-index: 2000;
+        padding: 20px 20px 0 20px;
+        /* Padding top/sides, bottom handled by list */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dropdown-container.mobile-expanded .search-input-wrapper {
+        margin-bottom: 10px;
+        flex-shrink: 0;
+    }
+
+    .dropdown-container.mobile-expanded input[type="text"] {
+        /* Input becomes the header search bar */
+        margin-bottom: 0;
+        font-size: 1.1rem;
+        padding: 15px 40px 15px 15px;
+        /* Add right padding for clear button */
+        border-color: var(--primary);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown-container.mobile-expanded .dropdown-list {
+        position: static;
+        /* Flow within flex container */
+        width: 100%;
+        max-height: none;
+        height: auto;
+        flex: 1;
+        overflow-y: auto;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        margin-top: 10px;
+        padding-bottom: 20px;
+    }
+
+    /* Adjust list items for better touch targets */
+    .dropdown-container.mobile-expanded .dropdown-item {
+        padding: 16px;
+        font-size: 1rem;
+        background: var(--card-bg);
+        margin-bottom: 1px;
+    }
+
+    .dropdown-container.mobile-expanded .dropdown-category {
+        top: -1px;
+        /* Sticky header adjustment */
+        z-index: 10;
+        background: var(--bg-color);
+        border-bottom: 2px solid var(--primary);
+        padding: 10px;
+    }
+
+    /* Hide the pseudo header from last step */
+    .dropdown-list.show::before {
+        display: none;
+    }
+}

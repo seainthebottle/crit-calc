@@ -69,25 +69,247 @@ function calculateCrCl() {
     updateAntibioticDose();
 }
 
+// Antibiotic Search Logic
+let allAntibiotics = [];
+
 function populateAntibiotics() {
-    const select = document.getElementById('anti-drug');
-    if (!select) return;
-    select.innerHTML = '<option value="">Select Antibiotics</option>';
+    const input = document.getElementById('anti-drug-input');
+    const hidden = document.getElementById('anti-drug');
+    const list = document.getElementById('anti-drug-list');
 
-    if (typeof antibioticData === 'undefined') return;
+    if (!input || !list || typeof antibioticData === 'undefined') return;
 
-    antibioticData.forEach((group, groupIdx) => {
-        const optgroup = document.createElement('optgroup');
-        optgroup.label = group.category;
-
-        group.drugs.forEach((drug, drugIdx) => {
-            const opt = document.createElement('option');
-            opt.value = `${groupIdx}-${drugIdx}`;
-            opt.innerText = drug.name;
-            optgroup.appendChild(opt);
+    // Flatten data for search
+    allAntibiotics = [];
+    if (antibioticData && Array.isArray(antibioticData)) {
+        antibioticData.forEach((group, groupIdx) => {
+            if (group.drugs) {
+                group.drugs.forEach((drug, drugIdx) => {
+                    allAntibiotics.push({
+                        id: `${groupIdx}-${drugIdx}`,
+                        name: drug.name,
+                        category: group.category
+                    });
+                });
+            }
         });
-        select.appendChild(optgroup);
+        console.log(`Loaded ${allAntibiotics.length} antibiotics.`);
+    } else {
+        console.error("antibioticData is missing or invalid.");
+    }
+
+    const clearBtn = document.getElementById('clear-input-btn');
+
+    // Event Listeners
+    input.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (!val) {
+            hidden.value = '';
+            // Clear result explicitly
+            const resultMain = document.querySelector('#anti-result .anti-dose-main');
+            const resultSub = document.querySelector('#anti-result .anti-dose-sub');
+            if (resultMain) resultMain.innerText = '---';
+            if (resultSub) resultSub.innerText = 'Enter CrCl or select dialysis';
+            document.getElementById('anti-summary').classList.add('hidden');
+
+            clearBtn.classList.add('hidden');
+        } else {
+            clearBtn.classList.remove('hidden');
+        }
+        filterAntibiotics(val);
     });
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            hidden.value = '';
+            clearBtn.classList.add('hidden');
+            input.focus();
+
+            // Clear result explicitly
+            const resultMain = document.querySelector('#anti-result .anti-dose-main');
+            const resultSub = document.querySelector('#anti-result .anti-dose-sub');
+            if (resultMain) resultMain.innerText = '---';
+            if (resultSub) resultSub.innerText = 'Enter CrCl or select dialysis';
+            document.getElementById('anti-summary').classList.add('hidden');
+
+            filterAntibiotics('');
+        });
+    }
+
+    input.addEventListener('focus', () => {
+        console.log("Input focused");
+        filterAntibiotics(input.value);
+    });
+
+    input.addEventListener('click', () => {
+        console.log("Input clicked");
+        if (!list.classList.contains('show')) {
+            filterAntibiotics(input.value);
+        }
+    });
+
+    // Keyboard Navigation
+    input.addEventListener('keydown', (e) => {
+        if (!list.classList.contains('show')) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                filterAntibiotics(input.value);
+            }
+            return;
+        }
+
+        const items = Array.from(list.querySelectorAll('.dropdown-item:not(.close-item)'));
+        let activeIndex = items.findIndex(item => item.classList.contains('active'));
+
+        if (e.key === 'ArrowDown' || e.key === 'Tab') {
+            e.preventDefault();
+            if (activeIndex < items.length - 1) {
+                if (activeIndex >= 0) items[activeIndex].classList.remove('active');
+                items[activeIndex + 1].classList.add('active');
+                items[activeIndex + 1].scrollIntoView({ block: 'nearest' });
+            } else if (activeIndex === -1 && items.length > 0) {
+                items[0].classList.add('active');
+                items[0].scrollIntoView({ block: 'nearest' });
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (activeIndex > 0) {
+                items[activeIndex].classList.remove('active');
+                items[activeIndex - 1].classList.add('active');
+                items[activeIndex - 1].scrollIntoView({ block: 'nearest' });
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeIndex >= 0) {
+                items[activeIndex].click();
+            }
+        } else if (e.key === 'Escape') {
+            list.classList.remove('show');
+            const container = document.querySelector('.dropdown-container');
+            if (container) container.classList.remove('mobile-expanded');
+            input.blur();
+        }
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown-container')) {
+            list.classList.remove('show');
+            const container = document.querySelector('.dropdown-container');
+            if (container) container.classList.remove('mobile-expanded');
+        }
+    });
+}
+
+function filterAntibiotics(query) {
+    const list = document.getElementById('anti-drug-list');
+    const container = document.querySelector('.dropdown-container'); // Find container
+    const q = query.toLowerCase().trim();
+
+    let filtered = allAntibiotics;
+    if (q) {
+        filtered = allAntibiotics.filter(item =>
+            item.name.toLowerCase().includes(q)
+        ).sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    renderAntibioticList(filtered, !q);
+    list.classList.add('show');
+
+    // Expand container on mobile
+    if (container) container.classList.add('mobile-expanded');
+}
+
+function renderAntibioticList(items, groupByCategory = false) {
+    const list = document.getElementById('anti-drug-list');
+    list.innerHTML = '';
+
+    if (items.length === 0) {
+        console.log("No items found");
+        const noResult = document.createElement('div');
+        noResult.className = 'dropdown-item';
+        noResult.style.cursor = 'default';
+        noResult.innerText = 'No matches found';
+        list.appendChild(noResult);
+    }
+
+    if (items.length > 0) {
+        // Add Close Button for Mobile (or general convenience)
+        const closeBtn = document.createElement('div');
+        closeBtn.className = 'dropdown-item close-item';
+        closeBtn.innerText = 'Close / Cancel';
+        closeBtn.style.textAlign = 'center';
+        closeBtn.style.color = 'var(--text-dim)';
+        closeBtn.style.position = 'sticky';
+        closeBtn.style.bottom = '0';
+        closeBtn.style.background = 'var(--card-bg)';
+        closeBtn.style.borderTop = '1px solid var(--border)';
+        closeBtn.onclick = (e) => {
+            e.stopPropagation();
+            list.classList.remove('show');
+            const container = document.querySelector('.dropdown-container');
+            if (container) container.classList.remove('mobile-expanded');
+        };
+        // We append it at the end, but with sticky it stays at bottom if needed, or just at top.
+        // Actually sticky bottom is good for mobile.
+        // Let's prepend it for easy access? No, bottom is standard for "Cancel" sheets.
+
+        if (groupByCategory) {
+            // Group by category logic for full list
+            const groups = {};
+            items.forEach(item => {
+                if (!groups[item.category]) groups[item.category] = [];
+                groups[item.category].push(item);
+            });
+
+            // Use original order from antibioticData to keep category order
+            antibioticData.forEach(group => {
+                if (groups[group.category]) {
+                    const catHeader = document.createElement('div');
+                    catHeader.className = 'dropdown-category';
+                    catHeader.innerText = group.category;
+                    list.appendChild(catHeader);
+
+                    groups[group.category].forEach(item => {
+                        list.appendChild(createAntibioticItem(item));
+                    });
+                }
+            });
+        } else {
+            // Flat list for search results
+            items.forEach(item => {
+                list.appendChild(createAntibioticItem(item));
+            });
+        }
+
+        // Append close button at the end
+        list.appendChild(closeBtn);
+    }
+}
+
+function createAntibioticItem(item) {
+    const el = document.createElement('div');
+    el.className = 'dropdown-item';
+    el.innerText = item.name;
+    el.onclick = () => selectAntibiotic(item);
+    return el;
+}
+
+function selectAntibiotic(item) {
+    const input = document.getElementById('anti-drug-input');
+    const hidden = document.getElementById('anti-drug');
+    const list = document.getElementById('anti-drug-list');
+    const container = document.querySelector('.dropdown-container');
+
+    input.value = item.name;
+    hidden.value = item.id;
+    list.classList.remove('show');
+    if (container) container.classList.remove('mobile-expanded');
+
+    const clearBtn = document.getElementById('clear-input-btn');
+    if (clearBtn) clearBtn.classList.remove('hidden');
+
+    updateAntibioticDose();
 }
 
 // CrCl 입력창 및 버튼 표시/숨김 처리
