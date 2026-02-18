@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>승압제 용량 계산기</title>
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    h1 {
+        color: #ff9800;
+        margin: 0;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    input, select {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+        border: 1px solid #555;
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #444;
+        border-radius: 4px;
+        background-color: #222;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+    th, td {
+        border: 1px solid #555;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #333;
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px;
+        }
+        table {
+            font-size: 0.9rem;
+        }
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+</head>
+<body>
+
+<h1>승압제 용량 계산기</h1>
+
+<label for="drug">약물 선택:</label>
+<select id="drug" onchange="setDefaults(); calculateDose();">
+    <option value="norepi">Norepinephrine</option>
+    <option value="vaso">Vasopressin</option>
+    <option value="epi">Epinephrine</option>
+    <option value="dopamine">Dopamine</option>
+    <option value="dobutamine">Dobutamine</option>
+</select>
+
+<label>수액 + 앰플 부피 (ml):</label>
+<input type="number" id="fluidVolume" oninput="calculateDose()">
+
+<label>약물 양 (mg 또는 units):</label>
+<input type="number" id="drugAmount" oninput="calculateDose()">
+
+<label>체중 (kg):</label>
+<input type="number" id="weight" value="60" oninput="calculateDose()">
+
+<label>주입 속도 (mL/hr):</label>
+<input type="number" id="rate" step="0.1" oninput="calculateDose()">
+
+<div class="result" id="result"></div>
+
+<h2>투여 참고치</h2>
+<table>
+    <thead>
+        <tr>
+            <th>약물</th>
+            <th>초기 투여량</th>
+            <th>일반적 최대용량</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Norepinephrine</td>
+            <td>0.05 - 0.1 mcg/kg/min</td>
+            <td>0.5 mcg/kg/min</td>
+        </tr>
+        <tr>
+            <td>Vasopressin</td>
+            <td>0.01 - 0.03 units/min</td>
+            <td>0.06 units/min</td>
+        </tr>
+        <tr>
+            <td>Epinephrine</td>
+            <td>0.02 - 0.05 mcg/kg/min</td>
+            <td>0.5 mcg/kg/min</td>
+        </tr>
+        <tr>
+            <td>Dopamine</td>
+            <td>2-5 mcg/kg/min (inotropic)</td>
+            <td>5-20 mcg/kg/min (vasopressor)</td>
+        </tr>
+        <tr>
+            <td>Dobutamine</td>
+            <td>2-5 mcg/kg/min</td>
+            <td>20 mcg/kg/min</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    const defaults = {
+        norepi: { fluid: 270, drug: 20 },       // mg
+        vaso: { fluid: 103, drug: 60 },         // units
+        epi: { fluid: 260, drug: 10 },          // mg
+        dopamine: { fluid: 500, drug: 800 },    // mg
+        dobutamine: { fluid: 250, drug: 500 }   // mg
+    };
+
+    function setDefaults() {
+        const drug = document.getElementById('drug').value;
+        document.getElementById('fluidVolume').value = defaults[drug].fluid;
+        document.getElementById('drugAmount').value = defaults[drug].drug;
+    }
+
+    function calculateDose() {
+        const drug = document.getElementById('drug').value;
+        const fluid = parseFloat(document.getElementById('fluidVolume').value);
+        const drugAmount = parseFloat(document.getElementById('drugAmount').value);
+        const weight = parseFloat(document.getElementById('weight').value);
+        const rate = parseFloat(document.getElementById('rate').value);
+
+        if (isNaN(fluid) || isNaN(drugAmount) || isNaN(weight) || isNaN(rate) || fluid <= 0 || weight <= 0) {
+            document.getElementById('result').innerHTML = `<span style="color:red">모든 값을 올바르게 입력하세요.</span>`;
+            return;
+        }
+
+        let output = "";
+
+        if (drug === "vaso") {
+            // Vasopressin: units/min
+            const concentration = drugAmount / fluid; // units/mL
+            const dose = (rate * concentration) / 60; // units/min
+            output = `<strong>투여 용량:</strong> ${dose.toFixed(3)} units/min`;
+        } else {
+            // 기타 약물: mcg/kg/min
+            const concentration = (drugAmount * 1000) / fluid; // mcg/mL
+            const dose = (rate * concentration) / (weight * 60);
+            output = `<strong>투여 용량:</strong> ${dose.toFixed(3)} mcg/kg/min`;
+        }
+
+        document.getElementById('result').innerHTML = output;
+    }
+
+    setDefaults();
+    calculateDose();
+</script>
+
+</body>
+</html>

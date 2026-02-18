@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crit Calc - Antibiotics & Vasopressor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>Crit Calc</h1>
+                <button id="install-btn" class="install-btn hidden" onclick="installPWA()">
+                    Install App
+                </button>
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('vasopressor')">Vasopressor</button>
+                <button class="tab-btn" onclick="switchTab('antibiotic')">Antibiotics</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Vasopressor Tab -->
+            <section id="vasopressor" class="tab-content active">
+                <div class="card">
+                    <div class="input-group">
+                        <label for="vp-drug">Drug Selection</label>
+                        <select id="vp-drug" onchange="vp_setDefaults(); vp_calculateDose();">
+                            <option value="norepi">Norepinephrine</option>
+                            <option value="vaso">Vasopressin</option>
+                            <option value="epi">Epinephrine</option>
+                            <option value="dopamine">Dopamine</option>
+                            <option value="dobutamine">Dobutamine</option>
+                        </select>
+                    </div>
+                    <div class="grid">
+                        <div class="input-group">
+                            <label for="vp-fluidVolume">Fluid + Ampule (mL)</label>
+                            <input type="number" id="vp-fluidVolume" oninput="vp_calculateDose()">
+                        </div>
+                        <div class="input-group">
+                            <label for="vp-drugAmount">Drug Amount (mg/units)</label>
+                            <input type="number" id="vp-drugAmount" oninput="vp_calculateDose()">
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="input-group">
+                            <label for="vp-weight">Weight (kg)</label>
+                            <input type="number" id="vp-weight" value="60" oninput="vp_calculateDose()">
+                        </div>
+                        <div class="input-group">
+                            <label for="vp-rate">Infusion Rate (mL/hr)</label>
+                            <input type="number" id="vp-rate" step="0.1" oninput="vp_calculateDose()">
+                        </div>
+                    </div>
+                    <div class="result-display" id="vp-result">---</div>
+                </div>
+
+                <div class="card info-card">
+                    <h3>Reference Ranges</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Drug</th>
+                                    <th>Initial Dose</th>
+                                    <th>Common Max</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Norepinephrine</td>
+                                    <td>0.05 - 0.1 mcg/kg/min</td>
+                                    <td>0.5 mcg/kg/min</td>
+                                </tr>
+                                <tr>
+                                    <td>Vasopressin</td>
+                                    <td>0.01 - 0.03 units/min</td>
+                                    <td>0.06 units/min</td>
+                                </tr>
+                                <tr>
+                                    <td>Epinephrine</td>
+                                    <td>0.02 - 0.05 mcg/kg/min</td>
+                                    <td>0.5 mcg/kg/min</td>
+                                </tr>
+                                <tr>
+                                    <td>Dopamine</td>
+                                    <td>2-5 mcg/kg/min (inotropic)</td>
+                                    <td>5-20 mcg/kg/min (vaso)</td>
+                                </tr>
+                                <tr>
+                                    <td>Dobutamine</td>
+                                    <td>2-5 mcg/kg/min</td>
+                                    <td>20 mcg/kg/min</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Antibiotic Tab -->
+            <section id="antibiotic" class="tab-content">
+                <div class="card">
+
+                    <div class="input-group">
+                        <label for="anti-drug">Select Antibiotics</label>
+                        <select id="anti-drug" onchange="updateAntibioticDose()">
+                            <!-- Will be populated by JS -->
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="anti-dialysis">Renal Function Status</label>
+                        <select id="anti-dialysis" onchange="toggleDialysis(this.value); updateAntibioticDose()">
+                            <option value="normal">Normal Renal Function</option>
+                            <option value="crcl">Renal Impairment (Enter CrCl)</option>
+                            <option value="HD">Hemodialysis (HD)</option>
+                            <option value="CAPD">CAPD</option>
+                            <option value="CRRT">CRRT</option>
+                            <option value="SLED">SLED</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group hidden" id="crcl-group-container">
+                        <label for="anti-crcl">CrCl (mL/min)</label>
+                        <div class="crcl-input-wrapper">
+                            <input type="number" id="anti-crcl" placeholder="Enter or use calculator"
+                                oninput="updateAntibioticDose()">
+                            <button type="button" class="calc-toggle-btn" onclick="openModal()"
+                                title="Open CrCl Calculator">
+                                <svg class="calc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="6" x2="16" y2="6"></line>
+                                    <rect x="8" y="10" width="2" height="2"></rect>
+                                    <rect x="11" y="10" width="2" height="2"></rect>
+                                    <rect x="14" y="10" width="2" height="2"></rect>
+                                    <rect x="8" y="14" width="2" height="2"></rect>
+                                    <rect x="11" y="14" width="2" height="2"></rect>
+                                    <rect x="14" y="14" width="2" height="2"></rect>
+                                    <rect x="8" y="18" width="2" height="2"></rect>
+                                    <rect x="11" y="18" width="5" height="2"></rect>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-display" id="anti-result">
+                        <div class="anti-dose-main">---</div>
+                        <div class="anti-dose-sub">Enter CrCl or select dialysis</div>
+                    </div>
+
+                    <div class="card info-card summary-card hidden" id="anti-summary">
+                        <h3>Dosing Summary</h3>
+                        <div class="table-container">
+                            <table id="summary-table">
+                                <thead>
+                                    <tr>
+                                        <th>Situation</th>
+                                        <th>Recommendation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Modal for CrCl Calculator -->
+                    <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal()">
+                        <div class="modal-content card" onclick="event.stopPropagation()">
+                            <div class="modal-header">
+                                <h3>CrCl Calculator (Cockcroft-Gault)</h3>
+                                <button class="close-btn" onclick="closeModal()">&times;</button>
+                            </div>
+                            <div class="grid">
+                                <div class="input-group">
+                                    <label for="cr-age">Age (years)</label>
+                                    <input type="number" id="cr-age" oninput="calculateCrCl()">
+                                </div>
+                                <div class="input-group">
+                                    <label for="cr-weight">Weight (kg)</label>
+                                    <input type="number" id="cr-weight" oninput="calculateCrCl()">
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="input-group">
+                                    <label for="cr-scr">Serum Creatinine (mg/dL)</label>
+                                    <input type="number" id="cr-scr" step="0.01" oninput="calculateCrCl()">
+                                </div>
+                                <div class="input-group">
+                                    <label for="cr-sex">Sex</label>
+                                    <select id="cr-sex" onchange="calculateCrCl()">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="crcl-result-modal">
+                                Calculated CrCl: <span id="crcl-value">---</span> mL/min
+                            </div>
+                            <button class="apply-btn" onclick="closeModal()">Apply & Close</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="antibiotics.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
