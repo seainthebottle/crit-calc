@@ -25,7 +25,7 @@ function vp_setDefaults() {
     const data = VP_DRUGS[key];
 
     // Label updates
-    document.getElementById('vp-drugAmtLabel').innerText = `Drug Amount (${data.unit})`;
+    document.getElementById('vp-drugAmtLabel').innerText = `Drug Amount (${data.unit}, ${data.conc}${data.unit}/mL)`;
 
     // Set default values
     document.getElementById('vp-baseFluid').value = data.defBase;

@@ -34,11 +34,11 @@
                     <div class="input-group">
                         <label for="vp-drug">Drug Selection</label>
                         <select id="vp-drug" onchange="vp_setDefaults()">
-                            <option value="norepi">Norepinephrine (1mg/mL)</option>
-                            <option value="vaso">Vasopressin (20IU/mL)</option>
-                            <option value="epi">Epinephrine (1mg/mL)</option>
-                            <option value="dopamine">Dopamine (40mg/mL)</option>
-                            <option value="dobutamine">Dobutamine (50mg/mL)</option>
+                            <option value="norepi">Norepinephrine</option>
+                            <option value="vaso">Vasopressin</option>
+                            <option value="epi">Epinephrine</option>
+                            <option value="dopamine">Dopamine</option>
+                            <option value="dobutamine">Dobutamine</option>
                         </select>
                         <div id="vp-conc-display" style="font-size: 0.85em; color: var(--text-dim); margin-top: 4px;">
                         </div>
@@ -75,8 +75,10 @@
                             <input type="number" id="vp-weight" value="60" oninput="vp_calculateDose()">
                         </div>
                         <div class="input-group">
-                            <label for="vp-rate">Infusion Rate (mL/hr)</label>
-                            <input type="number" id="vp-rate" step="0.1" oninput="vp_calculateDose()">
+                            <label for="vp-rate" style="font-weight: 700;">Infusion Rate
+                                (mL/hr)</label>
+                            <input type="number" id="vp-rate" step="0.1" placeholder="Enter Rate"
+                                oninput="vp_calculateDose()">
                         </div>
                     </div>
 

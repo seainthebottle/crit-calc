@@ -131,6 +131,7 @@ h3 {
 
 .input-group {
     margin-bottom: 16px;
+    min-width: 0;
 }
 
 label {
@@ -138,12 +139,15 @@ label {
     font-size: 0.875rem;
     color: var(--text-dim);
     margin-bottom: 6px;
-    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 input,
 select {
     width: 100%;
+    min-width: 0;
     background: var(--input-bg);
     border: 1px solid var(--border);
     color: var(--text-main);
@@ -372,7 +376,9 @@ hr {
 /* Mobile Adjustment */
 @media (max-width: 480px) {
     .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        /* Slightly smaller gap for mobile */
     }
 
     .crcl-input-wrapper {
