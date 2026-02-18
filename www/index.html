@@ -33,24 +33,42 @@
                 <div class="card">
                     <div class="input-group">
                         <label for="vp-drug">Drug Selection</label>
-                        <select id="vp-drug" onchange="vp_setDefaults(); vp_calculateDose();">
-                            <option value="norepi">Norepinephrine</option>
-                            <option value="vaso">Vasopressin</option>
-                            <option value="epi">Epinephrine</option>
-                            <option value="dopamine">Dopamine</option>
-                            <option value="dobutamine">Dobutamine</option>
+                        <select id="vp-drug" onchange="vp_setDefaults()">
+                            <option value="norepi">Norepinephrine (1mg/mL)</option>
+                            <option value="vaso">Vasopressin (20IU/mL)</option>
+                            <option value="epi">Epinephrine (1mg/mL)</option>
+                            <option value="dopamine">Dopamine (40mg/mL)</option>
+                            <option value="dobutamine">Dobutamine (50mg/mL)</option>
                         </select>
+                        <div id="vp-conc-display" style="font-size: 0.85em; color: var(--text-dim); margin-top: 4px;">
+                        </div>
                     </div>
+
+                    <!-- Fluid & Total Volume Row -->
                     <div class="grid">
                         <div class="input-group">
-                            <label for="vp-fluidVolume">Fluid + Ampule (mL)</label>
-                            <input type="number" id="vp-fluidVolume" oninput="vp_calculateDose()">
+                            <label for="vp-baseFluid">Base Fluid (mL)</label>
+                            <input type="number" id="vp-baseFluid" oninput="vp_calcFromBase()">
                         </div>
                         <div class="input-group">
-                            <label for="vp-drugAmount">Drug Amount (mg/units)</label>
-                            <input type="number" id="vp-drugAmount" oninput="vp_calculateDose()">
+                            <label for="vp-totalVolume">Total Volume (mL)</label>
+                            <input type="number" id="vp-totalVolume" oninput="vp_calcFromTotal()">
                         </div>
                     </div>
+
+                    <!-- Drug Amount & Volume Row -->
+                    <div class="grid">
+                        <div class="input-group">
+                            <label id="vp-drugAmtLabel" for="vp-drugAmount">Drug Amount (mg)</label>
+                            <input type="number" id="vp-drugAmount" oninput="vp_calcFromAmt()">
+                        </div>
+                        <div class="input-group">
+                            <label for="vp-drugVol">Drug Volume (mL)</label>
+                            <input type="number" id="vp-drugVol" oninput="vp_calcFromVol()">
+                        </div>
+                    </div>
+
+                    <!-- Patient Parameters -->
                     <div class="grid">
                         <div class="input-group">
                             <label for="vp-weight">Weight (kg)</label>
@@ -61,6 +79,7 @@
                             <input type="number" id="vp-rate" step="0.1" oninput="vp_calculateDose()">
                         </div>
                     </div>
+
                     <div class="result-display" id="vp-result">---</div>
                 </div>
 

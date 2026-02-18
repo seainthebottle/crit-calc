@@ -11,44 +11,121 @@ function switchTab(tabId) {
 }
 
 // Vasopressor Logic
-const vp_defaults = {
-    norepi: { fluid: 270, drug: 20 },
-    vaso: { fluid: 103, drug: 60 },
-    epi: { fluid: 260, drug: 10 },
-    dopamine: { fluid: 500, drug: 800 },
-    dobutamine: { fluid: 250, drug: 500 }
+// Vasopressor Logic
+const VP_DRUGS = {
+    norepi: { name: "Norepinephrine", conc: 1, unit: "mg", doseUnit: "mcg/kg/min", defBase: 250, defDrugAmt: 20 }, // 20mg (20mL)
+    vaso: { name: "Vasopressin", conc: 20, unit: "units", doseUnit: "units/min", defBase: 100, defDrugAmt: 60 }, // 60U (3mL)
+    epi: { name: "Epinephrine", conc: 1, unit: "mg", doseUnit: "mcg/kg/min", defBase: 250, defDrugAmt: 10 }, // 10mg (10mL)
+    dopamine: { name: "Dopamine", conc: 40, unit: "mg", doseUnit: "mcg/kg/min", defBase: 480, defDrugAmt: 800 }, // 800mg (20mL)
+    dobutamine: { name: "Dobutamine", conc: 50, unit: "mg", doseUnit: "mcg/kg/min", defBase: 240, defDrugAmt: 500 } // 500mg (10mL)
 };
 
 function vp_setDefaults() {
-    const drug = document.getElementById('vp-drug').value;
-    document.getElementById('vp-fluidVolume').value = vp_defaults[drug].fluid;
-    document.getElementById('vp-drugAmount').value = vp_defaults[drug].drug;
+    const key = document.getElementById('vp-drug').value;
+    const data = VP_DRUGS[key];
+
+    // Label updates
+    document.getElementById('vp-drugAmtLabel').innerText = `Drug Amount (${data.unit})`;
+
+    // Set default values
+    document.getElementById('vp-baseFluid').value = data.defBase;
+    document.getElementById('vp-drugAmount').value = data.defDrugAmt;
+
+    // Trigger calculation chain starting from Amount
+    vp_calcFromAmt();
+}
+
+// 1. Calculate Drug Volume from Drug Amount
+function vp_calcFromAmt() {
+    const key = document.getElementById('vp-drug').value;
+    const data = VP_DRUGS[key];
+    const amt = parseFloat(document.getElementById('vp-drugAmount').value);
+
+    if (!isNaN(amt)) {
+        const vol = amt / data.conc;
+        document.getElementById('vp-drugVol').value = parseFloat(vol.toFixed(2));
+        vp_updateTotal();
+    }
+}
+
+// 2. Calculate Drug Amount from Drug Volume
+function vp_calcFromVol() {
+    const key = document.getElementById('vp-drug').value;
+    const data = VP_DRUGS[key];
+    const vol = parseFloat(document.getElementById('vp-drugVol').value);
+
+    if (!isNaN(vol)) {
+        const amt = vol * data.conc;
+        document.getElementById('vp-drugAmount').value = parseFloat(amt.toFixed(2));
+        vp_updateTotal();
+    }
+}
+
+// 3. Update Total Volume (Base + Drug Vol)
+function vp_calcFromBase() {
+    vp_updateTotal();
+}
+
+function vp_updateTotal() {
+    const base = parseFloat(document.getElementById('vp-baseFluid').value) || 0;
+    const drugVol = parseFloat(document.getElementById('vp-drugVol').value) || 0;
+    const total = base + drugVol;
+
+    document.getElementById('vp-totalVolume').value = parseFloat(total.toFixed(2));
+    vp_calculateDose();
+}
+
+// 4. Reverse Calc: Change Base Fluid when Total is modified
+function vp_calcFromTotal() {
+    const total = parseFloat(document.getElementById('vp-totalVolume').value);
+    const drugVol = parseFloat(document.getElementById('vp-drugVol').value) || 0;
+
+    if (!isNaN(total)) {
+        const base = total - drugVol;
+        document.getElementById('vp-baseFluid').value = parseFloat(Math.max(0, base).toFixed(2));
+        vp_calculateDose();
+    }
 }
 
 function vp_calculateDose() {
-    const drug = document.getElementById('vp-drug').value;
-    const fluid = parseFloat(document.getElementById('vp-fluidVolume').value);
-    const drugAmount = parseFloat(document.getElementById('vp-drugAmount').value);
+    const key = document.getElementById('vp-drug').value;
+    const data = VP_DRUGS[key];
+
+    const drugAmt = parseFloat(document.getElementById('vp-drugAmount').value);
+    const totalVol = parseFloat(document.getElementById('vp-totalVolume').value);
     const weight = parseFloat(document.getElementById('vp-weight').value);
     const rate = parseFloat(document.getElementById('vp-rate').value);
 
     const resultEl = document.getElementById('vp-result');
+    const concEl = document.getElementById('vp-conc-display');
 
-    if (isNaN(fluid) || isNaN(drugAmount) || isNaN(weight) || isNaN(rate) || fluid <= 0 || weight <= 0) {
+    // Display Concentration
+    if (drugAmt > 0 && totalVol > 0) {
+        let finalConc = drugAmt / totalVol;
+        concEl.innerText = `Final Conecntration: ${finalConc.toFixed(3)} ${data.unit}/mL`;
+    } else {
+        concEl.innerText = "";
+    }
+
+    if (isNaN(drugAmt) || isNaN(totalVol) || isNaN(weight) || isNaN(rate) || totalVol <= 0 || weight <= 0) {
         resultEl.innerText = "---";
         resultEl.style.color = "var(--text-dim)";
         return;
     }
 
     resultEl.style.color = "var(--primary)";
-    if (drug === "vaso") {
-        const concentration = drugAmount / fluid;
-        const dose = (rate * concentration) / 60;
-        resultEl.innerHTML = `${dose.toFixed(3)} <small>units/min</small>`;
+
+    let dose = 0;
+    const concentration = drugAmt / totalVol; // unit/mL or mg/mL
+
+    if (key === "vaso") {
+        // Units/min = (mL/hr * Units/mL) / 60
+        dose = (rate * concentration) / 60;
+        resultEl.innerHTML = `${dose.toFixed(4)} <small>${data.doseUnit}</small>`;
     } else {
-        const concentration = (drugAmount * 1000) / fluid;
-        const dose = (rate * concentration) / (weight * 60);
-        resultEl.innerHTML = `${dose.toFixed(3)} <small>mcg/kg/min</small>`;
+        // mcg/kg/min = (mL/hr * mg/mL * 1000) / (60 * kg)
+        dose = (rate * concentration * 1000) / (weight * 60);
+        resultEl.innerHTML = `${dose.toFixed(3)} <small>${data.doseUnit}</small>`;
     }
 }
 
