@@ -21,18 +21,65 @@ const VP_DRUGS = {
 };
 
 function vp_setDefaults() {
+    vp_loadDrug();
+}
+
+function vp_loadDrug() {
     const key = document.getElementById('vp-drug').value;
     const data = VP_DRUGS[key];
 
     // Label updates
     document.getElementById('vp-drugAmtLabel').innerText = `Drug Amount (${data.unit}, ${data.conc}${data.unit}/mL)`;
 
-    // Set default values
-    document.getElementById('vp-baseFluid').value = data.defBase;
-    document.getElementById('vp-drugAmount').value = data.defDrugAmt;
+    // Try to load saved state
+    const saved = loadVpState(key);
 
-    // Trigger calculation chain starting from Amount
-    vp_calcFromAmt();
+    if (saved) {
+        document.getElementById('vp-baseFluid').value = saved.base;
+        document.getElementById('vp-totalVolume').value = saved.total;
+        document.getElementById('vp-drugAmount').value = saved.drugAmt;
+        document.getElementById('vp-drugVol').value = saved.drugVol;
+        document.getElementById('vp-weight').value = saved.weight;
+        document.getElementById('vp-rate').value = saved.rate;
+    } else {
+        // Default values
+        document.getElementById('vp-baseFluid').value = data.defBase;
+        document.getElementById('vp-drugAmount').value = data.defDrugAmt;
+
+        // Trigger calculation chain for defaults
+        vp_calcFromAmt();
+        // Reset weight/rate to global defaults or specific if needed (keeping 60/null for now)
+        // If we want to persist weight globally, that's another thing, but request said "per vasopressor".
+        // Let's keep weight 60 as default if not saved.
+        document.getElementById('vp-weight').value = 60;
+        document.getElementById('vp-rate').value = '';
+    }
+
+    vp_calculateDose();
+}
+
+function saveVpState() {
+    const key = document.getElementById('vp-drug').value;
+    const state = {
+        base: document.getElementById('vp-baseFluid').value,
+        total: document.getElementById('vp-totalVolume').value,
+        drugAmt: document.getElementById('vp-drugAmount').value,
+        drugVol: document.getElementById('vp-drugVol').value,
+        weight: document.getElementById('vp-weight').value,
+        rate: document.getElementById('vp-rate').value
+    };
+    localStorage.setItem(`critcalc_vp_${key}`, JSON.stringify(state));
+}
+
+function loadVpState(key) {
+    const json = localStorage.getItem(`critcalc_vp_${key}`);
+    return json ? JSON.parse(json) : null;
+}
+
+function vp_resetDefaults() {
+    const key = document.getElementById('vp-drug').value;
+    localStorage.removeItem(`critcalc_vp_${key}`);
+    vp_loadDrug(); // Reloads, which will fall back to defaults
 }
 
 // 1. Calculate Drug Volume from Drug Amount
@@ -127,6 +174,8 @@ function vp_calculateDose() {
         dose = (rate * concentration * 1000) / (weight * 60);
         resultEl.innerHTML = `${dose.toFixed(3)} <small>${data.doseUnit}</small>`;
     }
+
+    saveVpState();
 }
 
 // Antibiotics / CrCl Logic

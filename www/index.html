@@ -32,7 +32,11 @@
             <section id="vasopressor" class="tab-content active">
                 <div class="card">
                     <div class="input-group">
-                        <label for="vp-drug">Drug Selection</label>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label for="vp-drug" style="margin-bottom: 0;">Drug Selection</label>
+                            <button id="vp-reset-btn" onclick="vp_resetDefaults()"
+                                title="Reset to Defaults">Reset</button>
+                        </div>
                         <select id="vp-drug" onchange="vp_setDefaults()">
                             <option value="norepi">Norepinephrine</option>
                             <option value="vaso">Vasopressin</option>

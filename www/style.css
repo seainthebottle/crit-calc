@@ -613,3 +613,21 @@ footer {
 .creator {
     font-weight: 500;
 }
+
+#vp-reset-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 6px;
+    /* Align with label's bottom margin */
+}
+
+#vp-reset-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
