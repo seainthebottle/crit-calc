@@ -580,3 +580,30 @@ hr {
         display: none;
     }
 }
+
+/* Footer Styles */
+footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.disclaimer {
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.creator {
+    font-weight: 500;
+}
