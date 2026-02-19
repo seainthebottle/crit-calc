@@ -225,8 +225,18 @@ function populateAntibiotics() {
     }
 
     const clearBtn = document.getElementById('clear-input-btn');
+    const backBtn = document.getElementById('search-back-btn');
 
     // Event Listeners
+    if (backBtn) {
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent focus loss if possible, or handle it
+            const container = document.querySelector('.dropdown-container');
+            if (container) container.classList.remove('mobile-expanded');
+            list.classList.remove('show');
+            input.blur(); // Hide keyboard
+        });
+    }
     input.addEventListener('input', (e) => {
         const val = e.target.value;
         if (!val) {
@@ -264,50 +274,63 @@ function populateAntibiotics() {
         });
     }
 
-    // Reset Handler for Mobile/PC
-    const handleInputReset = () => {
-        // 항생제가 이미 선택된 상태라면, 새로운 검색을 위해 입력값과 결과를 초기화함
-        if (hidden.value) {
-            console.log("Resetting antibiotics selection");
-            input.value = '';
-            hidden.value = '';
+    // Unified Focus Handler
+    // 입력창 클릭/포커스 시 무조건 전체 목록을 보여주고, 텍스트가 있다면 전체 선택
+    const handleInputFocus = () => {
+        console.log("Input focused/clicked - Showing all antibiotics");
 
-            if (clearBtn) clearBtn.classList.add('hidden');
+        // 1. 텍스트가 있다면 전체 선택 (수정 용이성)
+        if (input.value) {
+            // hidden value가 있다면(이미 선택된 약) 초기화 로직 수행
+            if (hidden.value) {
+                hidden.value = ''; // 선택 해제
+                // 결과창 초기화
+                const resultMain = document.querySelector('#anti-result .anti-dose-main');
+                const resultSub = document.querySelector('#anti-result .anti-dose-sub');
+                if (resultMain) resultMain.innerText = '---';
+                if (resultSub) resultSub.innerText = 'Select antibiotic...';
+                document.getElementById('anti-summary').classList.add('hidden');
+            }
 
-            // 결과 표시 영역 초기화
-            const resultMain = document.querySelector('#anti-result .anti-dose-main');
-            const resultSub = document.querySelector('#anti-result .anti-dose-sub');
-            if (resultMain) resultMain.innerText = '---';
-            if (resultSub) resultSub.innerText = 'Enter CrCl or select dialysis';
-            document.getElementById('anti-summary').classList.add('hidden');
-
-            // 전체 목록 다시 표시
-            filterAntibiotics('');
-            return true;
+            input.focus();
+            setTimeout(() => {
+                input.select();
+            }, 50);
         }
-        return false;
+
+        // 2. 목록은 무조건 '전체'를 보여줌 (검색어 무시하고 전체 렌더링)
+        // filterAntibiotics('')를 호출하면 전체 목록이 렌더링됨
+        // 단, input.value가 있어도 무시하고 전체를 보여줘야 하므로
+        // filterAntibiotics 내부 로직에 의존하기보다 직접 전체 렌더링 호출
+
+        renderAntibioticList(allAntibiotics, true); // true = groupByCategory
+
+        // UI 상태 업데이트
+        list.classList.add('show');
+        const container = document.querySelector('.dropdown-container');
+        if (container) {
+            container.classList.add('mobile-expanded');
+            // Ghost click 방지
+            const wasHidden = !list.classList.contains('show'); // 이미 위에서 add해서 의미는 없지만 로직상
+            // 항상 적용
+            list.style.pointerEvents = 'none';
+            setTimeout(() => {
+                list.style.pointerEvents = 'auto';
+            }, 400);
+        }
     };
 
     input.addEventListener('focus', () => {
-        console.log("Input focused");
-        if (!handleInputReset()) {
-            filterAntibiotics(input.value);
-        }
+        // 이미 열려있지 않은 경우에만 전체 로직 수행? 
+        // 아니면 항상 수행? -> 포커스 시 항상 전체 목록 보여주는게 요구사항인듯
+        // 단, 타이핑 중에는 이 이벤트가 아니라 input 이벤트가 처리함
+        handleInputFocus();
     });
 
     input.addEventListener('click', () => {
-        console.log("Input clicked");
-        if (!handleInputReset()) {
-            if (!list.classList.contains('show')) {
-                filterAntibiotics(input.value);
-            }
-        }
+        // 클릭 시에도 동일
+        handleInputFocus();
     });
-
-    // 모바일 터치 대응 (일부 기기에서 click/focus 지연 문제 해결)
-    input.addEventListener('touchstart', () => {
-        handleInputReset();
-    }, { passive: true });
 
     // Keyboard Navigation
     input.addEventListener('keydown', (e) => {
@@ -485,6 +508,9 @@ function selectAntibiotic(item) {
     if (clearBtn) clearBtn.classList.remove('hidden');
 
     updateAntibioticDose();
+
+    // Explicitly blur to ensure next tap triggers focus again and hides keyboard
+    input.blur();
 }
 
 // CrCl 입력창 및 버튼 표시/숨김 처리

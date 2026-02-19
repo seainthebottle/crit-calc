@@ -491,10 +491,26 @@ hr {
     color: #fff;
 }
 
-/* Clear Button */
+/* Clear and Back Buttons */
 .search-input-wrapper {
     position: relative;
     width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-back-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    padding: 0 10px 0 0;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.search-back-btn:hover {
+    color: var(--primary);
 }
 
 .clear-input-btn {
@@ -548,6 +564,10 @@ hr {
         flex-shrink: 0;
     }
 
+    .dropdown-container.mobile-expanded .search-back-btn {
+        display: block;
+    }
+
     .dropdown-container.mobile-expanded input[type="text"] {
         /* Input becomes the header search bar */
         margin-bottom: 0;
@@ -556,8 +576,11 @@ hr {
         /* Add right padding for clear button */
         border-color: var(--primary);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        flex: 1;
+        /* Take remaining space */
     }
 
+    /* Remove bottom padding since close button is gone */
     .dropdown-container.mobile-expanded .dropdown-list {
         position: static;
         /* Flow within flex container */
@@ -570,8 +593,7 @@ hr {
         box-shadow: none;
         background: transparent;
         margin-top: 10px;
-        padding-bottom: 60px;
-        /* Space for fixed close button */
+        padding-bottom: 20px;
     }
 
     /* Adjust list items for better touch targets */
@@ -591,18 +613,9 @@ hr {
         padding: 10px;
     }
 
-    /* Fixed Close Button for Mobile */
+    /* Removed Fixed Close Button */
     .dropdown-container.mobile-expanded .dropdown-item.close-item {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        z-index: 100;
-        border-top: 1px solid var(--border);
-        background: var(--card-bg);
-        text-align: center;
-        padding: 20px;
-        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+        display: none;
     }
 
     /* Hide the pseudo header from last step */
