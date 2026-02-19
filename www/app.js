@@ -374,10 +374,25 @@ function filterAntibiotics(query) {
     }
 
     renderAntibioticList(filtered, !q);
+
+    // Check state before showing
+    const wasHidden = !list.classList.contains('show');
     list.classList.add('show');
 
     // Expand container on mobile
-    if (container) container.classList.add('mobile-expanded');
+    if (container) {
+        const wasMobileExpanded = container.classList.contains('mobile-expanded');
+        container.classList.add('mobile-expanded');
+
+        // Prevent ghost clicks/immediate selection due to layout shift
+        // If the list just appeared or mobile view just expanded, block interaction briefly
+        if (wasHidden || !wasMobileExpanded) {
+            list.style.pointerEvents = 'none';
+            setTimeout(() => {
+                list.style.pointerEvents = 'auto';
+            }, 400); // 400ms delay to clear any pending click/tap
+        }
+    }
 }
 
 function renderAntibioticList(items, groupByCategory = false) {
