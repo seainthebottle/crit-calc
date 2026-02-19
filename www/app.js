@@ -29,7 +29,7 @@ function vp_loadDrug() {
     const data = VP_DRUGS[key];
 
     // Label updates
-    document.getElementById('vp-drugAmtLabel').innerText = `Drug Amount (${data.unit}, ${data.conc}${data.unit}/mL)`;
+    document.getElementById('vp-drugAmtLabel').innerText = `Drug Amount (${data.unit})`;
 
     // Try to load saved state
     const saved = loadVpState(key);
@@ -149,7 +149,7 @@ function vp_calculateDose() {
     // Display Concentration
     if (drugAmt > 0 && totalVol > 0) {
         let finalConc = drugAmt / totalVol;
-        concEl.innerText = `Final Conecntration: ${finalConc.toFixed(3)} ${data.unit}/mL`;
+        concEl.innerText = `Final Concentration: ${finalConc.toFixed(3)} ${data.unit}/mL`;
     } else {
         concEl.innerText = "";
     }
