@@ -631,9 +631,11 @@ function updateAntibioticDose() {
         return formatDoseText(doseText);
     };
 
+    const checkAd = (text) => text && text.includes("AD") ? "<br>AD: After Diuresis" : "";
+
     if (dialysis === 'normal') {
         resultMain.innerHTML = formatDose(drug.normalDose);
-        resultSub.innerText = "in Normal Renal Function";
+        resultSub.innerHTML = "in Normal Renal Function" + checkAd(drug.normalDose);
         updateDosingSummary(drug);
         return;
     }
@@ -641,7 +643,7 @@ function updateAntibioticDose() {
     if (dialysis !== 'crcl') {
         let displayDose = drug.dialysis[dialysis] || "No data";
         resultMain.innerHTML = formatDose(displayDose);
-        resultSub.innerText = `${dialysis} Mode`;
+        resultSub.innerHTML = `${dialysis} Mode${checkAd(displayDose)}`;
         updateDosingSummary(drug);
         return;
     }
@@ -649,17 +651,17 @@ function updateAntibioticDose() {
     // Renal Impairment (CrCl) mode
     if (isNaN(crcl)) {
         resultMain.innerHTML = "---";
-        resultSub.innerText = "Enter CrCl or use calculator";
+        resultSub.innerHTML = "Enter CrCl or use calculator";
         return;
     }
 
     const dosing = drug.renalDose.find(r => crcl >= r.min && crcl <= r.max);
     if (dosing) {
         resultMain.innerHTML = formatDose(dosing.dose);
-        resultSub.innerText = `CrCl ${crcl} mL/min`;
+        resultSub.innerHTML = `CrCl ${crcl} mL/min${checkAd(dosing.dose)}`;
     } else {
         resultMain.innerHTML = formatDose(drug.normalDose);
-        resultSub.innerText = "in Normal Renal Function";
+        resultSub.innerHTML = "in Normal Renal Function" + checkAd(drug.normalDose);
     }
 
     updateDosingSummary(drug);

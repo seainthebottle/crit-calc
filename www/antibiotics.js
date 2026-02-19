@@ -80,7 +80,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "0.5-1 gm q24h" }
           ],
           "dialysis": {
-            "HD": "0.5-1 gm q24h\n(AD on dialysis days)\no\n2 gm AD Mon/Wed, 3 gm AD Fri",
+            "HD": "0.5-1 gm q24h\n(AD on dialysis days)\nor\n2 gm AD Mon/Wed,\n3 gm AD Fri",
             "CAPD": "0.5 gm q12h",
             "CRRT": "1-2 gm q12h",
             "SLED": "No data"
