@@ -485,7 +485,7 @@ const antibioticData =
           "normalDose": "1-2 gm IV q4-6h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
-            { "min": 30, "max": 50, "dose": "1-2 pm q6-8h" },
+            { "min": 30, "max": 50, "dose": "1-2 gm q6-8h" },
             { "min": 10, "max": 30, "dose": "1-2 gm q8-12h" },
             { "min": 0, "max": 9, "dose": "1-2 gm q12-24h" }
           ],
