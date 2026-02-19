@@ -25,6 +25,16 @@ This project is a Progressive Web App (PWA) that can also be built as a native A
 2.  **Make Changes**:
     Edit files in the `www/` directory.
 
+3.  **Update Version**:
+    When you are ready to deploy a new version, update `version` in `package.json` and run:
+    ```bash
+    npm run update-version
+    ```
+    This will automatically:
+    - Update the version display in `index.html`.
+    - Update asset URLs (CSS, JS) with the new version for cache busting.
+    - Update `service-worker.js` cache name and file list.
+
 ## Building for Mobile
 
 After making changes to the `www/` folder, you must sync them to the native projects.

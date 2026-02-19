@@ -1,10 +1,10 @@
-const CACHE_NAME = 'critcalc-v1';
+const CACHE_NAME = 'critcalc-v2';
 const ASSETS_TO_CACHE = [
     './index.html',
-    './style.css',
-    './app.js',
-    './antibiotics.js',
-    './manifest.json',
+    './style.css?v=2',
+    './app.js?v=2',
+    './antibiotics.js?v=2',
+    './manifest.json?v=2',
     './icon-192.png',
     './icon-512.png'
 ];
