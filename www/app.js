@@ -259,21 +259,55 @@ function populateAntibiotics() {
             if (resultSub) resultSub.innerText = 'Enter CrCl or select dialysis';
             document.getElementById('anti-summary').classList.add('hidden');
 
+
             filterAntibiotics('');
         });
     }
 
+    // Reset Handler for Mobile/PC
+    const handleInputReset = () => {
+        // 항생제가 이미 선택된 상태라면, 새로운 검색을 위해 입력값과 결과를 초기화함
+        if (hidden.value) {
+            console.log("Resetting antibiotics selection");
+            input.value = '';
+            hidden.value = '';
+
+            if (clearBtn) clearBtn.classList.add('hidden');
+
+            // 결과 표시 영역 초기화
+            const resultMain = document.querySelector('#anti-result .anti-dose-main');
+            const resultSub = document.querySelector('#anti-result .anti-dose-sub');
+            if (resultMain) resultMain.innerText = '---';
+            if (resultSub) resultSub.innerText = 'Enter CrCl or select dialysis';
+            document.getElementById('anti-summary').classList.add('hidden');
+
+            // 전체 목록 다시 표시
+            filterAntibiotics('');
+            return true;
+        }
+        return false;
+    };
+
     input.addEventListener('focus', () => {
         console.log("Input focused");
-        filterAntibiotics(input.value);
+        if (!handleInputReset()) {
+            filterAntibiotics(input.value);
+        }
     });
 
     input.addEventListener('click', () => {
         console.log("Input clicked");
-        if (!list.classList.contains('show')) {
-            filterAntibiotics(input.value);
+        if (!handleInputReset()) {
+            if (!list.classList.contains('show')) {
+                filterAntibiotics(input.value);
+            }
         }
     });
+
+    // 모바일 터치 대응 (일부 기기에서 click/focus 지연 문제 해결)
+    input.addEventListener('touchstart', () => {
+        handleInputReset();
+    }, { passive: true });
 
     // Keyboard Navigation
     input.addEventListener('keydown', (e) => {

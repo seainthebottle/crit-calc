@@ -45,6 +45,15 @@ h1 {
     margin: 0;
 }
 
+.version-tag {
+    font-size: 0.5em;
+    /* relative to h1 */
+    color: var(--text-dim);
+    font-weight: 400;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
 .header-top {
     display: flex;
     justify-content: space-between;

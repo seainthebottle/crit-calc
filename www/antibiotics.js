@@ -44,7 +44,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "0.5 gm q24h" }
           ],
           "dialysis": {
-            "HD": "0.5 gm q24h (AD on dialysis days)",
+            "HD": "0.5 gm q24h\n(AD on dialysis days)",
             "CAPD": "0.5 gm q24h",
             "CRRT": "CVVH, CVVHD: 0.75-1 gm IV q8h",
             "SLED": "1 gm q8-12h"
@@ -80,7 +80,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "0.5-1 gm q24h" }
           ],
           "dialysis": {
-            "HD": "0.5-1 gm q24h (AD on dialysis days) or 2 gm AD Mon/Wed, 3 gm AD Fri",
+            "HD": "0.5-1 gm q24h\n(AD on dialysis days)\no\n2 gm AD Mon/Wed, 3 gm AD Fri",
             "CAPD": "0.5 gm q12h",
             "CRRT": "1-2 gm q12h",
             "SLED": "No data"
@@ -95,7 +95,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "1-2 gm q48h" }
           ],
           "dialysis": {
-            "HD": "1-2 gm q24h (+ extra 1 gm AD)",
+            "HD": "1-2 gm q24h\n(+ extra 1 gm AD)",
             "CAPD": "1 gm q24h",
             "CRRT": "1-2 gm q24h",
             "SLED": "No data"
@@ -111,7 +111,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "2 gm q24-48h" }
           ],
           "dialysis": {
-            "HD": "2 gm q24-48h (+ extra 1 gm AD)",
+            "HD": "2 gm q24-48h\n(+ extra 1 gm AD)",
             "CAPD": "1 gm q24h",
             "CRRT": "2 gm q8-12h",
             "SLED": "No data"
@@ -127,7 +127,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "2 gm q24h" }
           ],
           "dialysis": {
-            "HD": "2 gm q24h (+ extra 1 gm AD)",
+            "HD": "2 gm q24h\n(+ extra 1 gm AD)",
             "CAPD": "0.5-1 gm q24h",
             "CRRT": "2 gm q12-24h",
             "SLED": "No data"
@@ -166,12 +166,12 @@ const antibioticData =
           "name": "Cefoperazone-sulbactam",
           "normalDose": "2-4 gm/day (divided q12h)",
           "renalDose": [
-            { "min": 31, "max": 999, "dose": "No dosage adjustment (Max sulbactam 4g/day)" },
+            { "min": 31, "max": 999, "dose": "No dosage adjustment\n(Max sulbactam 4g/day)" },
             { "min": 15, "max": 30, "dose": "Sulbactam 1 gm q12h" },
             { "min": 0, "max": 14, "dose": "Sulbactam 500 mg q12h" }
           ],
           "dialysis": {
-            "HD": "Sulbactam 500 mg q12h (AD on dialysis days)",
+            "HD": "Sulbactam 500 mg q12h\n(AD on dialysis days)",
             "CAPD": "No data",
             "CRRT": "Sulbactam 1 gm q8h",
             "SLED": "No data"
@@ -186,7 +186,7 @@ const antibioticData =
             { "min": 0, "max": 30, "dose": "1-2 gm q24-48h" }
           ],
           "dialysis": {
-            "HD": "0.5-1 gm q24h (AD on dialysis days)",
+            "HD": "0.5-1 gm q24h\n(AD on dialysis days)",
             "CAPD": "No data",
             "CRRT": "1-2 gm q8-12h",
             "SLED": "2 gm q12h"
@@ -203,7 +203,7 @@ const antibioticData =
             { "min": 0, "max": 5, "dose": "0.94 gm q48h" }
           ],
           "dialysis": {
-            "HD": "Use CrCl <=15 dosing (AD on dialysis days)",
+            "HD": "Use CrCl <=15 dosing\n(AD on dialysis days)",
             "CAPD": "No data",
             "CRRT": "2.5 gm q8h",
             "SLED": "No data"
@@ -265,14 +265,14 @@ const antibioticData =
       "drugs": [
         {
           "name": "Cefadroxil",
-          "normalDose": "0.5-1 gm po q12h",
+          "normalDose": "0.5-1 gm PO q12h",
           "renalDose": [
             { "min": 41, "max": 999, "dose": "500-1000 mg q12h (No adjustment)" },
             { "min": 20, "max": 39, "dose": "500 mg q12-24h" },
             { "min": 0, "max": 19, "dose": "500 mg q24-48h" }
           ],
           "dialysis": {
-            "HD": "1 gm, then 1 gm AD (Give on dialysis days only)",
+            "HD": "1 gm, then 1 gm AD\n(Give on dialysis days only)",
             "CAPD": "500 mg q24h",
             "CRRT": "No data",
             "SLED": "No data"
@@ -280,14 +280,14 @@ const antibioticData =
         },
         {
           "name": "Cephalexin",
-          "normalDose": "250-1000 mg po q6h",
+          "normalDose": "250-1000 mg PO q6h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
             { "min": 10, "max": 50, "dose": "250-1000 mg q8-12h" },
             { "min": 0, "max": 9, "dose": "250-1000 mg q24-48h" }
           ],
           "dialysis": {
-            "HD": "250-500 mg q12-24h (AD on dialysis days)",
+            "HD": "250-500 mg q12-24h\n(AD on dialysis days)",
             "CAPD": "250-500 mg q12-24h",
             "CRRT": "No data",
             "SLED": "No data"
@@ -295,13 +295,13 @@ const antibioticData =
         },
         {
           "name": "Cefaclor",
-          "normalDose": "500 mg po q8h",
+          "normalDose": "500 mg PO q8h",
           "renalDose": [
             { "min": 10, "max": 999, "dose": "No dosage adjustment" },
             { "min": 0, "max": 9, "dose": "500 mg q12h" }
           ],
           "dialysis": {
-            "HD": "500 mg q12h (give one of the dialysis day doses AD)",
+            "HD": "500 mg q12h\n(give one of the dialysis day doses AD)",
             "CAPD": "500 mg q12h",
             "CRRT": "No data",
             "SLED": "No data"
@@ -309,14 +309,14 @@ const antibioticData =
         },
         {
           "name": "Cefprozil",
-          "normalDose": "500 mg po q12h",
+          "normalDose": "500 mg PO q12h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
             { "min": 10, "max": 50, "dose": "500 mg q24h" },
             { "min": 0, "max": 9, "dose": "250 mg q12h" }
           ],
           "dialysis": {
-            "HD": "250 mg q12h (give one of the dialysis day doses AD)",
+            "HD": "250 mg q12h\n(give one of the dialysis day doses AD)",
             "CAPD": "250 mg q24h",
             "CRRT": "No data",
             "SLED": "No data"
@@ -324,14 +324,14 @@ const antibioticData =
         },
         {
           "name": "Cefuroxime axetil",
-          "normalDose": "250-500 mg po q12h",
+          "normalDose": "250-500 mg PO q12h",
           "renalDose": [
             { "min": 30, "max": 999, "dose": "No dosage adjustment" },
             { "min": 10, "max": 29, "dose": "250-500 mg q24-48h" },
             { "min": 0, "max": 9, "dose": "250-500 mg q48h" }
           ],
           "dialysis": {
-            "HD": "250-500 mg q48h (give extra 250-500 mg AD)",
+            "HD": "250-500 mg q48h\n(give extra 250-500 mg AD)",
             "CAPD": "250-500 mg q24h",
             "CRRT": "No data",
             "SLED": "No data"
@@ -339,7 +339,7 @@ const antibioticData =
         },
         {
           "name": "Cefdinir",
-          "normalDose": "300 mg po q12h",
+          "normalDose": "300 mg PO q12h",
           "renalDose": [
             { "min": 30, "max": 999, "dose": "No dosage adjustment" },
             { "min": 0, "max": 29, "dose": "300 mg q24h" }
@@ -353,7 +353,7 @@ const antibioticData =
         },
         {
           "name": "Cefditoren pivoxil",
-          "normalDose": "400 mg po q12h",
+          "normalDose": "400 mg PO q12h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
             { "min": 10, "max": 50, "dose": "200 mg q12h" },
@@ -368,7 +368,7 @@ const antibioticData =
         },
         {
           "name": "Cefixime",
-          "normalDose": "400 mg po q24h",
+          "normalDose": "400 mg PO q24h",
           "renalDose": [
             { "min": 61, "max": 999, "dose": "No dosage adjustment" },
             { "min": 21, "max": 60, "dose": "260 mg q24h (use susp)" },
@@ -383,7 +383,7 @@ const antibioticData =
         },
         {
           "name": "Cefpodoxime proxetil",
-          "normalDose": "200 mg po q12h",
+          "normalDose": "200 mg PO q12h",
           "renalDose": [
             { "min": 30, "max": 999, "dose": "No dosage adjustment" },
             { "min": 0, "max": 29, "dose": "100-200 mg q24h" }
@@ -429,7 +429,7 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "0.5-4 million U q12h" }
           ],
           "dialysis": {
-            "HD": "0.5-4 million U q12h (give one of dialysis day doses post-dialysis)",
+            "HD": "0.5-4 million U q12h\n(give one of dialysis day doses post-dialysis)",
             "CAPD": "0.5-4 million U q12h",
             "CRRT": "1-4 million U q6-8h",
             "SLED": "3 million U q6h"
@@ -437,11 +437,11 @@ const antibioticData =
         },
         {
           "name": "Amoxicillin (standard)",
-          "normalDose": "500-1000 mg po q8h",
+          "normalDose": "500-1000 mg PO q8h",
           "renalDose": [
             { "min": 31, "max": 999, "dose": "No dosage adjustment" },
-            { "min": 10, "max": 30, "dose": "500-1000 mg po q12h" },
-            { "min": 0, "max": 9, "dose": "500 mg po q12-24h" }
+            { "min": 10, "max": 30, "dose": "500-1000 mg PO q12h" },
+            { "min": 0, "max": 9, "dose": "500 mg PO q12-24h" }
           ],
           "dialysis": {
             "HD": "250-500 mg q24h\n(q24h starting at end of dialysis)",
@@ -452,7 +452,7 @@ const antibioticData =
         },
         {
           "name": "Amoxicillin-clavulanate (PO)",
-          "normalDose": "500/125 mg po q8h\nor\n875/125 mg po q12h",
+          "normalDose": "500/125 mg PO q8h\nor\n875/125 mg PO q12h",
           "renalDose": [
             { "min": 31, "max": 999, "dose": "No dosage adjustment" },
             { "min": 10, "max": 30, "dose": "250-500 mg q12h\n(based on Amoxicillin)" },
@@ -525,7 +525,7 @@ const antibioticData =
           }
         },
         {
-          "name": "Piperacillin-Tazobactam (non-nosocomial P; low MIC)",
+          "name": "Piperacillin-Tazobactam\n(non-nosocomial P; low MIC)",
           "normalDose": "4.5 gm q8h (over 30 min)",
           "renalDose": [
             { "min": 41, "max": 999, "dose": "No dosage adjustment" },
@@ -533,14 +533,14 @@ const antibioticData =
             { "min": 0, "max": 19, "dose": "2.25 gm q8h" }
           ],
           "dialysis": {
-            "HD": "2.25 gm q12h (+ extra 0.75 gm AD)",
+            "HD": "2.25 gm q12h\n(+ extra 0.75 gm AD)",
             "CAPD": "2.25 gm q12h",
             "CRRT": "4.5 gm q8h",
             "SLED": "4.5 g q8h"
           }
         },
         {
-          "name": "Piperacillin-Tazobactam (nosocomial P; high MIC)",
+          "name": "Piperacillin-Tazobactam\n(nosocomial P; high MIC)",
           "normalDose": "4.5 gm q6h",
           "renalDose": [
             { "min": 41, "max": 999, "dose": "No dosage adjustment" },
@@ -548,14 +548,14 @@ const antibioticData =
             { "min": 0, "max": 19, "dose": "2.25 gm q6h" }
           ],
           "dialysis": {
-            "HD": "2.25 gm q8h (+ extra 0.75 gm AD)",
+            "HD": "2.25 gm q8h\n(+ extra 0.75 gm AD)",
             "CAPD": "2.25 gm q8h",
             "CRRT": "4.5 gm q6h",
             "SLED": "4.5 g q8h"
           }
         },
         {
-          "name": "Piperacillin-Tazobactam (extended infusion)",
+          "name": "Piperacillin-Tazobactam\n(extended infusion)",
           "normalDose": "4.5 g (over 30 min), then 3.375 g q8h (over 4 hr)",
           "renalDose": [
             { "min": 20, "max": 999, "dose": "No dosage adjustment" },
@@ -575,7 +575,7 @@ const antibioticData =
       "drugs": [
         {
           "name": "Ciprofloxacin (po)",
-          "normalDose": "250-750 mg po q12h",
+          "normalDose": "250-750 mg PO q12h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "500-750 mg PO BID (No adjustment)" },
             { "min": 30, "max": 49, "dose": "250-500 mg PO BID" },
@@ -647,11 +647,11 @@ const antibioticData =
             "HD": "6-10 mg/kg q48h (AD); if next dialysis is 72 hrs away, give 9-15 mg/kg",
             "CAPD": "6-10 mg/kg q48h",
             "CRRT": "6-8 mg/kg q24h",
-            "SLED": "6 mg/kg q24h; post-SLED (8-12 mg/kg for severe infection)"
+            "SLED": "6 mg/kg q24h; post-SLED\n(8-12 mg/kg for severe infection)"
           }
         },
         {
-          "name": "Teicoplanin (Target Trough 15-30)",
+          "name": "Teicoplanin\n(Target Trough 15-30)",
           "normalDose": "Loading dose:(Day 1): 12 mg/kg q12h\n(Day 2-3): 12 mg/kg q24h\n\nMaintenance dose:6.0-6.7 mg/kg q24h",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "No dosage adjustment" },
@@ -666,7 +666,7 @@ const antibioticData =
           }
         },
         {
-          "name": "Teicoplanin (Target Trough 20-40)",
+          "name": "Teicoplanin\n(Target Trough 20-40)",
           "normalDose": "Loading dose:(Day 1-2): 12 mg/kg q12h\n(Day 3): 12 mg/kg q24h\n\nMaintenance dose:6.0-6.7 mg/kg q24h",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "No dosage adjustment" },
@@ -690,8 +690,8 @@ const antibioticData =
             { "min": 0, "max": 19, "dose": "15-20 mg/kg q48h" }
           ],
           "dialysis": {
-            "HD (Low permeability)": "POST-HD:\nLoading dose: 25 mg/kg,\nMaint 7.5 mg/kg AD\n\nINTRADIALYTIC:\nLoading dose: 30 mg/kg,\nMaint 7.5-10 mg/kg",
-            "HD (High permeability)": "POST-HD:\nLoading dose: 25 mg/kg,\nMaint 10 mg/kg AD\n\nINTRADIALYTIC:\nLoading dose: 35 mg/kg,\nMaint 10-15 mg/kg",
+            "HD\n(Low permeability)": "POST-HD:\nLoading dose: 25 mg/kg,\nMaint 7.5 mg/kg AD\n\nINTRADIALYTIC:\nLoading dose: 30 mg/kg,\nMaint 7.5-10 mg/kg",
+            "HD\n(High permeability)": "POST-HD:\nLoading dose: 25 mg/kg,\nMaint 10 mg/kg AD\n\nINTRADIALYTIC:\nLoading dose: 35 mg/kg,\nMaint 10-15 mg/kg",
             "CAPD": "7.5 mg/kg q48-96h",
             "CRRT": "7.5-10 mg/kg q12h\n(effluent 20-25 mL/kg/hr)",
             "SLED": "Loading: 20-25 mg/kg; Maintenance: 15 mg/kg AD"
@@ -711,14 +711,14 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "7.5 mg/kg q48h" }
           ],
           "dialysis": {
-            "HD": "7.5 mg/kg q48h (+ extra 3.75 mg/kg AD)",
+            "HD": "7.5 mg/kg q48h\n(+ extra 3.75 mg/kg AD)",
             "CAPD": "For peritonitis only: 2 mg/kg IP once daily",
             "CRRT": "7.5 mg/kg q24h",
             "SLED": "No data"
           }
         },
         {
-          "name": "Amikacin (extended interval)",
+          "name": "Amikacin\n(extended interval)",
           "normalDose": "15-20 mg/kg q24h\n(Critically ill: 30 mg/kg 고려)",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "15-20 mg/kg q24h" },
@@ -743,14 +743,14 @@ const antibioticData =
             { "min": 0, "max": 19, "dose": "1.7-2.0 mg/kg q36-48h" }
           ],
           "dialysis": {
-            "HD": "1.7-2.0 mg/kg q48h (+ extra 0.85-1.0 mg/kg AD)",
+            "HD": "1.7-2.0 mg/kg q48h\n(+ extra 0.85-1.0 mg/kg AD)",
             "CAPD": "For peritonitis only: 0.6 mg/kg IP once daily",
             "CRRT": "1.7-2.0 mg/kg q24h",
-            "SLED": "6 mg/kg IV q48h (Begin 30 min before start of SLED)"
+            "SLED": "6 mg/kg IV q48h\n(Begin 30 min before start of SLED)"
           }
         },
         {
-          "name": "Gentamicin (extended interval)",
+          "name": "Gentamicin\n(extended interval)",
           "normalDose": "5-7 mg/kg q24h",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "5-7 mg/kg q24h" },
@@ -766,7 +766,7 @@ const antibioticData =
           }
         },
         {
-          "name": "Gentamicin (synergy for gram positive)",
+          "name": "Gentamicin\n(synergy for gram positive)",
           "normalDose": "1 mg/kg IV q8h",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "1 mg/kg q8h" },
@@ -791,14 +791,14 @@ const antibioticData =
             { "min": 0, "max": 9, "dose": "1.7-2.0 mg/kg q48h" }
           ],
           "dialysis": {
-            "HD": "1.7-2.0 mg/kg q48h (+ extra 0.85-1.0 mg/kg AD)",
+            "HD": "1.7-2.0 mg/kg q48h\n(+ extra 0.85-1.0 mg/kg AD)",
             "CAPD": "For peritonitis only: 0.6 mg/kg IP once daily",
             "CRRT": "1.7-2.0 mg/kg q24h",
             "SLED": "No data"
           }
         },
         {
-          "name": "Tobramycin (extended interval)",
+          "name": "Tobramycin\n(extended interval)",
           "normalDose": "5-7 mg/kg q24h",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "5-7 mg/kg q24h" },
@@ -820,7 +820,7 @@ const antibioticData =
       "drugs": [
         {
           "name": "Azithromycin",
-          "normalDose": "250-500 mg IV/po q24h",
+          "normalDose": "250-500 mg IV/PO q24h",
           "renalDose": [
             { "min": 0, "max": 999, "dose": "No dosage adjustment for renal impairment" }
           ],
@@ -833,14 +833,14 @@ const antibioticData =
         },
         {
           "name": "Clarithromycin",
-          "normalDose": "500 mg po q12h",
+          "normalDose": "500 mg PO q12h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
             { "min": 10, "max": 50, "dose": "500 mg q12-24h" },
             { "min": 0, "max": 9, "dose": "500 mg q24h" }
           ],
           "dialysis": {
-            "HD": "500 mg q24h (AD on dialysis days)",
+            "HD": "500 mg q24h\n(AD on dialysis days)",
             "CAPD": "500 mg q24h",
             "CRRT": "500 mg q12-24h",
             "SLED": "No data"
@@ -853,7 +853,7 @@ const antibioticData =
       "drugs": [
         {
           "name": "Clindamycin",
-          "normalDose": "600 mg IV q8h; 150-450 mg po q6h",
+          "normalDose": "600 mg IV q8h; 150-450 mg PO q6h",
           "renalDose": [
             { "min": 0, "max": 999, "dose": "No dosage adjustment for renal impairment" }
           ],
@@ -866,10 +866,10 @@ const antibioticData =
         },
         {
           "name": "Fosfomycin PO",
-          "normalDose": "3 gm po x1",
+          "normalDose": "3 gm PO x1",
           "renalDose": [
             { "min": 11, "max": 999, "dose": "No dosage adjustment" },
-            { "min": 0, "max": 10, "dose": "Avoid use (poor urinary excretion)" }
+            { "min": 0, "max": 10, "dose": "Avoid use\n(poor urinary excretion)" }
           ],
           "dialysis": {
             "HD": "No data",
@@ -894,7 +894,7 @@ const antibioticData =
         },
         {
           "name": "Fusidic acid",
-          "normalDose": "500 mg po q8h",
+          "normalDose": "500 mg PO q8h",
           "renalDose": [
             { "min": 0, "max": 999, "dose": "No dosage adjustment for renal impairment" }
           ],
@@ -921,11 +921,11 @@ const antibioticData =
         },
         {
           "name": "TMP-SMX",
-          "normalDose": "Treatment: 5-20 mg/kg/day po/IV\n(div q6-12h); Prophylaxis: 1 DS tab po q24h or 3x/week",
+          "normalDose": "Treatment: 5-20 mg/kg/day po/IV\n(div q6-12h); Prophylaxis: 1 DS tab PO q24h or 3x/week",
           "renalDose": [
-            { "min": 31, "max": 999, "dose": "Treatment: 5-20 mg/kg/day po/IV\n(div q6-12h); Prophylaxis: 1 DS tab po q24h or 3x/week" },
-            { "min": 10, "max": 30, "dose": "Treatment: 5-10 mg/kg/day\n(div q12h); Prophylaxis: 1 DS tab po q24h or 3x/week" },
-            { "min": 0, "max": 9, "dose": "Treatment: Not recommended\n(if used: 5-10 mg/kg q24h); Prophylaxis: 1 DS tab po q24h or 3x/week" }
+            { "min": 31, "max": 999, "dose": "Treatment: 5-20 mg/kg/day po/IV\n(div q6-12h); Prophylaxis: 1 DS tab PO q24h or 3x/week" },
+            { "min": 10, "max": 30, "dose": "Treatment: 5-10 mg/kg/day\n(div q12h); Prophylaxis: 1 DS tab PO q24h or 3x/week" },
+            { "min": 0, "max": 9, "dose": "Treatment: Not recommended\n(if used: 5-10 mg/kg q24h); Prophylaxis: 1 DS tab PO q24h or 3x/week" }
           ],
           "dialysis": {
             "HD": "Treatment: Not recommended\n(if used: 5-10 mg/kg q24h, AD on dialysis days); Prophylaxis: No data",
@@ -941,7 +941,7 @@ const antibioticData =
       "drugs": [
         {
           "name": "Colistin (polymyxin E)",
-          "normalDose": "Load: 4 x Bwt (based on the lesser of IBW or actual BW); Loading dose may exceed 300 mg.",
+          "normalDose": "Load: 4 x Bwt\n(based on the lesser of IBW or actual BW); Loading dose may exceed 300 mg.",
           "renalDose": [
             { "min": 90, "max": 999, "dose": "180 mg q12h" },
             { "min": 80, "max": 89, "dose": "170 mg q12h" },
@@ -969,7 +969,7 @@ const antibioticData =
       "drugs": [
         {
           "name": "Doxycycline",
-          "normalDose": "100 mg po q12h",
+          "normalDose": "100 mg PO q12h",
           "renalDose": [
             { "min": 0, "max": 999, "dose": "No dosage adjustment for renal impairment" }
           ],
@@ -982,7 +982,7 @@ const antibioticData =
         },
         {
           "name": "Minocycline",
-          "normalDose": "200 mg po loading x1, then 100 mg po q12h",
+          "normalDose": "200 mg PO loading x1, then 100 mg PO q12h",
           "renalDose": [
             { "min": 0, "max": 999, "dose": "No dosage adjustment for renal impairment" }
           ],
@@ -1013,7 +1013,7 @@ const antibioticData =
       "drugs": [
         {
           "name": "Fluconazole",
-          "normalDose": "100-400 mg IV/po q24h",
+          "normalDose": "100-400 mg IV/PO q24h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
             { "min": 0, "max": 50, "dose": "50-200 mg q24h" }
@@ -1120,7 +1120,7 @@ const antibioticData =
         },
         {
           "name": "Flucytosine",
-          "normalDose": "25 mg/kg po q6h",
+          "normalDose": "25 mg/kg PO q6h",
           "renalDose": [
             { "min": 41, "max": 999, "dose": "No dosage adjustment" },
             { "min": 21, "max": 40, "dose": "25 mg/kg q12h" },
