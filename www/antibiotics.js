@@ -158,7 +158,7 @@ const antibioticData =
           "dialysis": {
             "HD": "1 gm q24h\n(q24h starting at end of dialysis)",
             "CAPD": "2 gm q48h",
-            "CRRT": "Effluent rate 1L/h: 1 g q8h; Effluent rate 2L/h 이상: 1 g q6h",
+            "CRRT": "Effluent rate 1L/h: 1 g q8h; Effluent rate ≥2L/h: 1 g q6h",
             "SLED": "2 g loading -> 1 g q6h"
           }
         },
@@ -525,7 +525,7 @@ const antibioticData =
           }
         },
         {
-          "name": "Piperacillin-Tazobactam\n(non-nosocomial P; low MIC)",
+          "name": "Piperacillin-Tazobactam\n(Non-nosocomial pneumonia; low MIC)",
           "normalDose": "4.5 gm q8h (over 30 min)",
           "renalDose": [
             { "min": 41, "max": 999, "dose": "No dosage adjustment" },
@@ -540,7 +540,7 @@ const antibioticData =
           }
         },
         {
-          "name": "Piperacillin-Tazobactam\n(nosocomial P; high MIC)",
+          "name": "Piperacillin-Tazobactam\n(Nosocomial pneumonia; high MIC)",
           "normalDose": "4.5 gm q6h",
           "renalDose": [
             { "min": 41, "max": 999, "dose": "No dosage adjustment" },
@@ -707,7 +707,7 @@ const antibioticData =
           "normalDose": "7.5 mg/kg IV q12h",
           "renalDose": [
             { "min": 51, "max": 999, "dose": "No dosage adjustment" },
-            { "min": 10, "max": 50, "dose": "7.5 mg/kg q24h\n(UpToDate에서는 CCr 40-50에선 q12h dosing 권고)" },
+            { "min": 10, "max": 50, "dose": "7.5 mg/kg q24h\n(Recommends dose at q12h for CCr 40–50 in UpToDate)" },
             { "min": 0, "max": 9, "dose": "7.5 mg/kg q48h" }
           ],
           "dialysis": {
@@ -719,12 +719,12 @@ const antibioticData =
         },
         {
           "name": "Amikacin\n(extended interval)",
-          "normalDose": "15-20 mg/kg q24h\n(Critically ill: 30 mg/kg 고려)",
+          "normalDose": "15-20 mg/kg q24h\n(Critically ill: consider30 mg/kg)",
           "renalDose": [
             { "min": 60, "max": 999, "dose": "15-20 mg/kg q24h" },
             { "min": 40, "max": 59, "dose": "15-20 mg/kg q36h" },
             { "min": 20, "max": 39, "dose": "15-20 mg/kg q48h" },
-            { "min": 0, "max": 19, "dose": "금기, conventional dosing 사용" }
+            { "min": 0, "max": 19, "dose": "Contraindicated, use conventional dosing" }
           ],
           "dialysis": {
             "HD": "No data",
@@ -756,7 +756,7 @@ const antibioticData =
             { "min": 60, "max": 999, "dose": "5-7 mg/kg q24h" },
             { "min": 40, "max": 59, "dose": "5-7 mg/kg q36h" },
             { "min": 20, "max": 39, "dose": "5-7 mg/kg q48h" },
-            { "min": 0, "max": 19, "dose": "금기, conventional dosing 사용" }
+            { "min": 0, "max": 19, "dose": "Contraindicated, use conventional dosing" }
           ],
           "dialysis": {
             "HD": "2 mg/kg q72h (AD)",
@@ -772,7 +772,7 @@ const antibioticData =
             { "min": 60, "max": 999, "dose": "1 mg/kg q8h" },
             { "min": 40, "max": 59, "dose": "1 mg/kg q12h" },
             { "min": 20, "max": 39, "dose": "1 mg/kg q16h" },
-            { "min": 0, "max": 19, "dose": "1 mg/kg q48h, conventional dosing의 보수적인 쪽으로 차용" }
+            { "min": 0, "max": 19, "dose": "1 mg/kg q48h, conservative side of conventional dosing" }
           ],
           "dialysis": {
             "HD": "1 mg/kg q48-72h (AD)",
@@ -804,7 +804,7 @@ const antibioticData =
             { "min": 60, "max": 999, "dose": "5-7 mg/kg q24h" },
             { "min": 40, "max": 59, "dose": "5-7 mg/kg q36h" },
             { "min": 20, "max": 39, "dose": "5-7 mg/kg q48h" },
-            { "min": 0, "max": 19, "dose": "금기, conventional dosing 사용" }
+            { "min": 0, "max": 19, "dose": "Contraindicated, use conventional dosing" }
           ],
           "dialysis": {
             "HD": "1.2-2.0 mg/kg q48-72h (AD)",

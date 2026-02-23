@@ -1,6 +1,6 @@
 {
   "name": "critcalc",
-  "version": "2",
+  "version": "3",
   "description": "Crit Calc PWA",
   "main": "app.js",
   "scripts": {
