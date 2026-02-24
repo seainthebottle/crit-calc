@@ -13,12 +13,12 @@ const indexPath = path.join(__dirname, 'www', 'index.html');
 let indexHtml = fs.readFileSync(indexPath, 'utf8');
 
 // Update version tag in title: e.g., <span class="version-tag">v.2</span> -> v.3
-// Regex looks for v. followed by digits
-indexHtml = indexHtml.replace(/<span class="version-tag">v\.\d+<\/span>/, `<span class="version-tag">v.${version}</span>`);
+// Regex looks for v. followed by digits and optionally dots and more digits
+indexHtml = indexHtml.replace(/<span class="version-tag">v\.[0-9.]+<\/span>/, `<span class="version-tag">v.${version}</span>`);
 
 // Update asset URLs: e.g., style.css?v=2 -> style.css?v=3
-// We use a regex dealing with ?v=digits
-indexHtml = indexHtml.replace(/((?:src|href)="[^"]+\?v=)\d+(")/g, `$1${version}$2`);
+// We use a regex dealing with ?v=version
+indexHtml = indexHtml.replace(/((?:src|href)="[^"]+\?v=)[0-9.]+(")/g, `$1${version}$2`);
 
 fs.writeFileSync(indexPath, indexHtml);
 console.log(`Updated www/index.html to version ${version}`);
@@ -28,10 +28,10 @@ const swPath = path.join(__dirname, 'www', 'service-worker.js');
 let swJs = fs.readFileSync(swPath, 'utf8');
 
 // Update CACHE_NAME: e.g., 'critcalc-v1' -> 'critcalc-v3'
-swJs = swJs.replace(/(const CACHE_NAME = 'critcalc-v)\d+(';)/, `$1${version}$2`);
+swJs = swJs.replace(/(const CACHE_NAME = 'critcalc-v)[0-9.]+(';)/, `$1${version}$2`);
 
 // Update asset URLs in CACHE list: e.g., style.css?v=2 -> style.css?v=3
-swJs = swJs.replace(/('\.\/[a-zA-Z0-9-]+\.(?:css|js|json)\?v=)\d+(')/g, `$1${version}$2`);
+swJs = swJs.replace(/('\.\/[a-zA-Z0-9-]+\.(?:css|js|json)\?v=)[0-9.]+(')/g, `$1${version}$2`);
 
 fs.writeFileSync(swPath, swJs);
 console.log(`Updated www/service-worker.js to version ${version}`);
