@@ -1,15 +1,15 @@
-const CACHE_NAME = 'critcalc-v3';
+const CACHE_NAME = 'critcalc-v3.3';
 const ASSETS_TO_CACHE = [
     './index.html',
-    './style.css?v=3',
-    './app.js?v=3',
-    './antibiotics.js?v=3',
-    './manifest.json?v=3',
+    './style.css?v=3.3',
+    './app.js?v=3.3',
+    './antibiotics.js?v=3.3',
+    './manifest.json?v=3.3',
     './icon-192.png',
     './icon-512.png'
 ];
 
-// 설치 이벤트: 캐시 초기화
+// Install event: Initialize cache
 self.addEventListener('install', (event) => {
     console.log('[Service Worker] Install');
     // Force the waiting service worker to become the active service worker.
@@ -22,7 +22,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// 활성화 이벤트: 오래된 캐시 정리
+// Activate event: Clean up old caches
 self.addEventListener('activate', (event) => {
     console.log('[Service Worker] Activate');
     // Tell the active service worker to take control of the page immediately.
@@ -42,11 +42,11 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// 요청 가로채기: 캐시 우선 전략 (Cache First) + 외부 리소스 캐싱
+// Fetch event: Cache First strategy + External resource caching
 self.addEventListener('fetch', (event) => {
     const requestUrl = new URL(event.request.url);
 
-    // 1. Google Fonts 캐싱 (Stale-While-Revalidate 전략)
+    // 1. Google Fonts caching (Stale-While-Revalidate strategy)
     if (requestUrl.origin.includes('fonts.googleapis.com') || requestUrl.origin.includes('fonts.gstatic.com')) {
         event.respondWith(
             caches.open(CACHE_NAME).then((cache) => {
@@ -62,16 +62,16 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // 2. 앱 내부 자원 (Cache First)
+    // 2. App internal resources (Cache First)
     event.respondWith(
         caches.match(event.request).then((response) => {
             if (response) {
                 return response;
             }
             return fetch(event.request).catch((error) => {
-                // 오프라인 상태에서 캐시에 없는 자원 요청 시 에러 처리
+                // Handle errors when resource is not in cache and offline
                 console.log('[Service Worker] Fetch failed:', error);
-                // 필요한 경우 오프라인 페이지를 반환하거나 null을 반환하여 브라우저가 기본 에러를 표시하게 함
+                // Return offline page or null to let browser show default error
             });
         })
     );

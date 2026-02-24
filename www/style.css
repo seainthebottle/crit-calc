@@ -1,30 +1,30 @@
 :root {
-    /* 기본 테마 (다크 모드 기준) */
+    /* Default theme (Dark mode) */
     --bg-color: #0d0d0f;
-    /* 전체 배경색 */
+    /* Background color */
     --card-bg: #1a1a1e;
-    /* 카드 배경색 */
+    /* Card background color */
     --primary: hsl(28, 100%, 62%);
-    /* 주황색 테마 컬러 (부드럽고 선명한 느낌) */
+    /* Primary color (Orange) */
     --primary-hover: hsl(28, 100%, 52%);
-    /* 주황색 호버 효과 */
+    /* Primary hover color */
     --text-main: #f0f0f2;
-    /* 메인 텍스트 색상 */
+    /* Main text color */
     --text-dim: #a0a0ab;
-    /* 보조 텍스트 색상 */
+    /* Secondary text color */
     --border: #2d2d35;
-    /* 경계선 색상 */
+    /* Border color */
     --input-bg: #222228;
-    /* 입력창 배경색 */
+    /* Input background color */
     --accent: #3b82f6;
-    /* 강조용 파란색 */
+    /* Accent color (Blue) */
     --shadow: rgba(0, 0, 0, 0.4);
-    /* 그림자 효과 */
+    /* Shadow effect */
 }
 
 @media (prefers-color-scheme: light) {
 
-    /* 시스템 설정이 라이트 모드일 때 자동 적용 */
+    /* Light mode settings */
     :root {
         --bg-color: #f5f7fa;
         --card-bg: #ffffff;
@@ -681,7 +681,8 @@ footer {
     padding: 0 20px;
 }
 
-.disclaimer {
+.disclaimer,
+.anti-source-disclaimer {
     margin-bottom: 10px;
     line-height: 1.4;
     font-style: italic;

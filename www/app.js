@@ -8,6 +8,16 @@ function switchTab(tabId) {
     document.getElementById(tabId).classList.add('active');
     const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.innerText.toLowerCase().includes(tabId));
     if (activeBtn) activeBtn.classList.add('active');
+
+    // Toggle source disclaimer visibility
+    const antiDisclaimer = document.getElementById('anti-source-disclaimer');
+    if (antiDisclaimer) {
+        if (tabId === 'antibiotic') {
+            antiDisclaimer.classList.remove('hidden');
+        } else {
+            antiDisclaimer.classList.add('hidden');
+        }
+    }
 }
 
 // Vasopressor Logic
@@ -275,16 +285,16 @@ function populateAntibiotics() {
     }
 
     // Unified Focus Handler
-    // 입력창 클릭/포커스 시 무조건 전체 목록을 보여주고, 텍스트가 있다면 전체 선택
+    // Focus/Click handler: Show all list, and select all text if exists
     const handleInputFocus = () => {
         console.log("Input focused/clicked - Showing all antibiotics");
 
-        // 1. 텍스트가 있다면 전체 선택 (수정 용이성)
+        // 1. If text exists, select all (for easy editing)
         if (input.value) {
-            // hidden value가 있다면(이미 선택된 약) 초기화 로직 수행
+            // If hidden value exists (already selected drug), reset logic
             if (hidden.value) {
-                hidden.value = ''; // 선택 해제
-                // 결과창 초기화
+                hidden.value = ''; // Deselect
+                // Reset result display
                 const resultMain = document.querySelector('#anti-result .anti-dose-main');
                 const resultSub = document.querySelector('#anti-result .anti-dose-sub');
                 if (resultMain) resultMain.innerText = '---';
@@ -298,21 +308,21 @@ function populateAntibiotics() {
             }, 50);
         }
 
-        // 2. 목록은 무조건 '전체'를 보여줌 (검색어 무시하고 전체 렌더링)
-        // filterAntibiotics('')를 호출하면 전체 목록이 렌더링됨
-        // 단, input.value가 있어도 무시하고 전체를 보여줘야 하므로
-        // filterAntibiotics 내부 로직에 의존하기보다 직접 전체 렌더링 호출
+        // 2. Always show "all" list (ignore search term)
+        // filterAntibiotics('') shows all list
+        // Even if input.value exists, show all
+        // Directly call render instead of depending on filterAntibiotics logic
 
         renderAntibioticList(allAntibiotics, true); // true = groupByCategory
 
-        // UI 상태 업데이트
+        // Update UI state
         list.classList.add('show');
         const container = document.querySelector('.dropdown-container');
         if (container) {
             container.classList.add('mobile-expanded');
-            // Ghost click 방지
-            const wasHidden = !list.classList.contains('show'); // 이미 위에서 add해서 의미는 없지만 로직상
-            // 항상 적용
+            // Prevent Ghost click
+            const wasHidden = !list.classList.contains('show'); // Logic check
+            // Always apply
             list.style.pointerEvents = 'none';
             setTimeout(() => {
                 list.style.pointerEvents = 'auto';
@@ -321,14 +331,14 @@ function populateAntibiotics() {
     };
 
     input.addEventListener('focus', () => {
-        // 이미 열려있지 않은 경우에만 전체 로직 수행? 
-        // 아니면 항상 수행? -> 포커스 시 항상 전체 목록 보여주는게 요구사항인듯
-        // 단, 타이핑 중에는 이 이벤트가 아니라 input 이벤트가 처리함
+        // Only execute if not already open?
+        // Or always? -> Requirements say always show all list on focus
+        // While typing, input event handles it
         handleInputFocus();
     });
 
     input.addEventListener('click', () => {
-        // 클릭 시에도 동일
+        // Same for click
         handleInputFocus();
     });
 
@@ -513,19 +523,19 @@ function selectAntibiotic(item) {
     input.blur();
 }
 
-// CrCl 입력창 및 버튼 표시/숨김 처리
+// CrCl input and button visibility handling
 function toggleDialysis(val) {
     const crclGroup = document.getElementById('crcl-group-container');
     const crclInput = document.getElementById('anti-crcl');
 
     if (val === 'crcl') {
-        // Renal Impairment 선택 시에만 표시
+        // Only show for Renal Impairment
         crclGroup.classList.remove('hidden');
         crclInput.disabled = false;
-        // 애니메이션 효과
+        // Animation effect
         crclGroup.style.animation = "fadeIn 0.3s ease-out";
     } else {
-        // 그 외에는 숨김
+        // Otherwise hide
         crclGroup.classList.add('hidden');
         crclInput.disabled = true;
     }
@@ -757,12 +767,12 @@ async function installPWA() {
 
     // 2. iOS Instruction
     if (isIos) {
-        alert('iOS 앱 설치 방법:\n\nSafari 브라우저 하단 [공유] 버튼\n↓\n[홈 화면에 추가] 선택');
+        alert('iOS Installation:\n\n1. Tap the [Share] button at the bottom of Safari\n2. Select [Add to Home Screen]');
         return;
     }
 
     // 3. Android/Others Manual Instruction
-    alert('앱 설치 방법:\n\n브라우저 우측 상단 메뉴(⋮)\n↓\n[앱 설치] 또는 [홈 화면에 추가] 선택');
+    alert('Installation:\n\n1. Tap the menu (⋮) at the top right\n2. Select [Install] or [Add to Home Screen]');
 }
 
 // Service Worker Registration
