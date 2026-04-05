@@ -641,7 +641,7 @@ function updateAntibioticDose() {
         return formatDoseText(doseText);
     };
 
-    const checkAd = (text) => text && text.includes("AD") ? "<br>AD: After Diuresis" : "";
+    const checkAd = (text) => text && text.includes("AD") ? "<br>AD: After Dialysis" : "";
 
     if (dialysis === 'normal') {
         resultMain.innerHTML = formatDose(drug.normalDose);
